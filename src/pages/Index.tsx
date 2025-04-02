@@ -1,9 +1,8 @@
-
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowRight, Car, Clock, Shield, Truck, GraduationCap, Sailboat, RepeatIcon } from "lucide-react";
+import { ArrowRight, Car, Clock, Shield, Truck, GraduationCap, Sailboat, RepeatIcon, User, UserPlus, Building } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Index = () => {
@@ -261,19 +260,22 @@ const Index = () => {
             <p className="text-white/80 mb-8">
               Join thousands of satisfied customers who rely on CabConnect for their daily transportation needs.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-6 justify-center">
               <Link to="/user/dashboard">
-                <Button size="lg" className="bg-white text-cab-secondary hover:bg-gray-100 rounded-full">
+                <Button size="lg" className="bg-white text-cab-secondary hover:bg-gray-100 rounded-full flex items-center gap-2 w-full sm:w-auto px-6">
+                  <User className="h-5 w-5" />
                   <span>Book as Passenger</span>
                 </Button>
               </Link>
               <Link to="/driver/dashboard">
-                <Button size="lg" variant="outline" className="text-white border-white hover:bg-white/10 rounded-full">
+                <Button size="lg" variant="outline" className="text-white border-white hover:bg-white/20 rounded-full flex items-center gap-2 w-full sm:w-auto px-6">
+                  <Car className="h-5 w-5" />
                   <span>Register as Driver</span>
                 </Button>
               </Link>
               <Link to="/vendor/dashboard">
-                <Button size="lg" variant="outline" className="text-white border-white hover:bg-white/10 rounded-full">
+                <Button size="lg" className="bg-cab-primary text-white hover:bg-cab-primary/90 rounded-full flex items-center gap-2 w-full sm:w-auto px-6">
+                  <Building className="h-5 w-5" />
                   <span>Join as Vendor</span>
                 </Button>
               </Link>
