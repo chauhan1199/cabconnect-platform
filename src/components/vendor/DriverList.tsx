@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Car, Phone, Star, MapPin, AlertCircle } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface Driver {
   id: string;
@@ -101,7 +102,18 @@ const DriverList = ({ drivers, onAssignRide, onViewDetails, onCall }: DriverList
                     <div className="text-red-600">{driver.cancelledRides} cancelled</div>
                   </div>
                   {driver.cancelledRides > 2 && (
-                    <AlertCircle className="h-4 w-4 text-amber-500" title="High cancellation rate" />
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <span>
+                            <AlertCircle className="h-4 w-4 text-amber-500" />
+                          </span>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>High cancellation rate</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
                   )}
                 </div>
               </TableCell>

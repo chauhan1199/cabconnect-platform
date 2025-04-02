@@ -43,7 +43,7 @@ const SidebarLink = ({ to, icon, label, badge, active }: SidebarLinkProps) => (
     >
       {icon}
       <span className="ml-2">{label}</span>
-      {badge && (
+      {badge !== undefined && (
         <span className="ml-auto bg-cab-secondary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
           {badge}
         </span>
