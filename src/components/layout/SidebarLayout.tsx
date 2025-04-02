@@ -57,6 +57,14 @@ interface SidebarLayoutProps {
   type: "user" | "driver" | "vendor" | "admin";
 }
 
+// Define a common navigation item type to ensure consistent typing
+interface NavigationItem {
+  to: string;
+  icon: ReactNode;
+  label: string;
+  badge?: number;
+}
+
 const SidebarLayout = ({ children, type }: SidebarLayoutProps) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
@@ -70,13 +78,13 @@ const SidebarLayout = ({ children, type }: SidebarLayoutProps) => {
   };
   
   // Common navigation
-  const commonNavigation = [
+  const commonNavigation: NavigationItem[] = [
     { to: `/${type}/profile`, icon: <User className="h-4 w-4" />, label: "Profile" },
     { to: `/${type}/settings`, icon: <Settings className="h-4 w-4" />, label: "Settings" },
   ];
   
   // Type specific navigation
-  const navigationByType: Record<string, Array<{ to: string; icon: ReactNode; label: string; badge?: number }>> = {
+  const navigationByType: Record<string, NavigationItem[]> = {
     user: [
       { to: "/user/dashboard", icon: <LayoutDashboard className="h-4 w-4" />, label: "Dashboard" },
       { to: "/user/book", icon: <Car className="h-4 w-4" />, label: "Book a Ride" },
@@ -107,7 +115,7 @@ const SidebarLayout = ({ children, type }: SidebarLayoutProps) => {
     ],
   };
   
-  const navigation = [...navigationByType[type], ...commonNavigation];
+  const navigation: NavigationItem[] = [...navigationByType[type], ...commonNavigation];
   
   const typeDisplayName = {
     user: "User",
