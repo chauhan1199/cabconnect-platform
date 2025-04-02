@@ -1,6 +1,6 @@
 
 import { ReactNode, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { 
@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { getCurrentUser, logoutUser } from "@/services/auth";
 
 interface SidebarLinkProps {
   to: string;
@@ -59,7 +60,14 @@ interface SidebarLayoutProps {
 const SidebarLayout = ({ children, type }: SidebarLayoutProps) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const isMobile = useIsMobile();
+  const user = getCurrentUser();
+  
+  const handleLogout = () => {
+    logoutUser();
+    navigate('/');
+  };
   
   // Common navigation
   const commonNavigation = [
@@ -68,7 +76,7 @@ const SidebarLayout = ({ children, type }: SidebarLayoutProps) => {
   ];
   
   // Type specific navigation
-  const navigationByType = {
+  const navigationByType: Record<string, Array<{ to: string; icon: ReactNode; label: string; badge?: number }>> = {
     user: [
       { to: "/user/dashboard", icon: <LayoutDashboard className="h-4 w-4" />, label: "Dashboard" },
       { to: "/user/book", icon: <Car className="h-4 w-4" />, label: "Book a Ride" },
@@ -139,11 +147,11 @@ const SidebarLayout = ({ children, type }: SidebarLayoutProps) => {
             <Avatar>
               <AvatarImage src="/placeholder.svg" />
               <AvatarFallback className="bg-cab-secondary text-white">
-                {type.charAt(0).toUpperCase()}
+                {user?.name?.charAt(0) || type.charAt(0).toUpperCase()}
               </AvatarFallback>
             </Avatar>
             <div>
-              <h4 className="font-medium">{typeDisplayName[type]} Name</h4>
+              <h4 className="font-medium">{user?.name || `${typeDisplayName[type]} Name`}</h4>
               <p className="text-sm text-gray-500">
                 {type === "user" && "User"}
                 {type === "driver" && "Licensed Driver"}
@@ -165,12 +173,14 @@ const SidebarLayout = ({ children, type }: SidebarLayoutProps) => {
               />
             ))}
             
-            <Link to="/">
-              <Button variant="ghost" className="w-full justify-start text-red-500 font-normal mt-4">
-                <LogOut className="h-4 w-4" />
-                <span className="ml-2">Logout</span>
-              </Button>
-            </Link>
+            <Button 
+              variant="ghost" 
+              className="w-full justify-start text-red-500 font-normal mt-4"
+              onClick={handleLogout}
+            >
+              <LogOut className="h-4 w-4" />
+              <span className="ml-2">Logout</span>
+            </Button>
           </div>
         </div>
       </aside>
